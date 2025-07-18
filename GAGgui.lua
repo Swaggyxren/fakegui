@@ -1,4 +1,3 @@
--- Reference Config
 local rawCfg = _G.SwaggyConfig or {}
 local cfg = {
 	Name = rawCfg.Name or "DefaultHub",
@@ -9,7 +8,6 @@ local cfg = {
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Check if any allowed user is in the server
 local function allowedUserInServer()
 	for _, player in ipairs(Players:GetPlayers()) do
 		if cfg.AllowedUsers[player.Name] then
@@ -19,9 +17,8 @@ local function allowedUserInServer()
 	return false
 end
 
--- Launch GUI
 local function launchGUI()
-	if LocalPlayer:FindFirstChild(cfg.Name .. "_GUI") then return end -- prevent duplicate GUIs
+	if LocalPlayer:FindFirstChild(cfg.Name .. "_GUI") then return end 
 
 	local screenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
 	screenGui.ResetOnSpawn = false
@@ -57,7 +54,6 @@ local function launchGUI()
 	titleLabel.TextSize = 30
 	titleLabel.Text = ""
 
-	-- Typewriter effect
 	local fullText = "Loading " .. cfg.Name .. "..."
 	task.spawn(function()
 		while true do
@@ -112,14 +108,14 @@ local function launchGUI()
 	end)
 end
 
--- Trigger GUI if allowed user is in server
+
 local function checkAndLaunch()
 	if allowedUserInServer() then
 		launchGUI()
 	end
 end
 
--- Check every 5 seconds
+
 task.spawn(function()
 	while not LocalPlayer:FindFirstChild(cfg.Name .. "_GUI") do
 		checkAndLaunch()
@@ -127,7 +123,6 @@ task.spawn(function()
 	end
 end)
 
--- Also trigger on player join
 Players.PlayerAdded:Connect(function(player)
 	if cfg.AllowedUsers[player.Name] then
 		checkAndLaunch()

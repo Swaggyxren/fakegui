@@ -1,8 +1,9 @@
 -- Reference Config
-local cfg = _G.SwaggyConfig or {
-    Name = "DefaultHub",
-    Clipboard = "https://default.com",
-    AllowedUsers = { [game.Players.LocalPlayer.Name] = true }
+local rawCfg = _G.SwaggyConfig or {}
+local cfg = {
+    Name = rawCfg.Name or "DefaultHub",
+    Clipboard = rawCfg.Clipboard or "https://default.com",
+    AllowedUsers = rawCfg.AllowedUsers or { [game.Players.LocalPlayer.Name] = true }
 }
 
 -- Validate player access
@@ -15,7 +16,8 @@ end
 local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
 screenGui.ResetOnSpawn = false
 screenGui.IgnoreGuiInset = true 
-screenGui.Name = "renrennGUI"
+screenGui.Name = cfg.Name .. "_GUI"
+
 
 local mainFrame = Instance.new("Frame", screenGui)
 mainFrame.Size = UDim2.new(1, 0, 1, 0)
@@ -47,7 +49,7 @@ titleLabel.TextSize = 30
 titleLabel.Text = ""
 
 -- Typewriter effect
-local fullText = "Loading Script..."
+local fullText = "Loading " .. cfg.Name .. "..."
 task.spawn(function()
 	while true do
 		for i = 1, #fullText do
